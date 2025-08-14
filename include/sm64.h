@@ -104,19 +104,22 @@ enum RenderLayers {
 enum MarioInput {
     INPUT_NONE                   = /* 0x0000 */ (0 <<  0),
     INPUT_NONZERO_ANALOG         = /* 0x0001 */ (1 <<  0),
-    INPUT_A_PRESSED              = /* 0x0002 */ (1 <<  1),
+    // Disable jumping
+    INPUT_A_PRESSED              = /* 0x0002 */ (0 <<  0),
     INPUT_OFF_FLOOR              = /* 0x0004 */ (1 <<  2),
     INPUT_ABOVE_SLIDE            = /* 0x0008 */ (1 <<  3),
     INPUT_FIRST_PERSON           = /* 0x0010 */ (1 <<  4),
     INPUT_IDLE                   = /* 0x0020 */ (1 <<  5),
     INPUT_SQUISHED               = /* 0x0040 */ (1 <<  6),
-    INPUT_A_DOWN                 = /* 0x0080 */ (1 <<  7),
+    // Disable jumping
+    INPUT_A_DOWN                 = /* 0x0080 */ (0 <<  0),
     INPUT_IN_POISON_GAS          = /* 0x0100 */ (1 <<  8),
     INPUT_IN_WATER               = /* 0x0200 */ (1 <<  9),
     INPUT_STOMPED                = /* 0x0400 */ (1 << 10),
     INPUT_INTERACT_OBJ_GRABBABLE = /* 0x0800 */ (1 << 11),
     INPUT_B_DOWN                 = /* 0x1000 */ (1 << 12),
     INPUT_B_PRESSED              = /* 0x2000 */ (1 << 13),
+    // Disable crouching
     INPUT_Z_DOWN                 = /* 0x4000 */ (0 << 0),
     INPUT_Z_PRESSED              = /* 0x8000 */ (0 << 0),
 };
