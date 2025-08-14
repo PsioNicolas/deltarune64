@@ -416,55 +416,57 @@ s32 update_decelerating_speed(struct MarioState *m) {
 }
 
 void update_walking_speed(struct MarioState *m) {
-    f32 maxTargetSpeed;
-    f32 targetSpeed;
+    m->forwardVel = 32.0f;
 
-    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
-        maxTargetSpeed = 24.0f;
-    } else {
-        maxTargetSpeed = 32.0f;
-    }
+//     f32 maxTargetSpeed;
+//     f32 targetSpeed;
 
-    targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
+//     if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
+//         maxTargetSpeed = 24.0f;
+//     } else {
+//         maxTargetSpeed = 32.0f;
+//     }
 
-    if (m->quicksandDepth > 10.0f) {
-        targetSpeed *= 6.25f / m->quicksandDepth;
-    }
+//     targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
 
-    if (m->forwardVel <= 0.0f) {
-        // Slow down if moving backwards
-        m->forwardVel += 1.1f;
-    } else if (m->forwardVel <= targetSpeed) {
-        // If accelerating
-        m->forwardVel += 1.1f - m->forwardVel / 43.0f;
-    } else if (m->floor->normal.y >= 0.95f) {
-        m->forwardVel -= 1.0f;
-    }
+//     if (m->quicksandDepth > 10.0f) {
+//         targetSpeed *= 6.25f / m->quicksandDepth;
+//     }
 
-    if (m->forwardVel > 48.0f) {
-        m->forwardVel = 48.0f;
-    }
+//     if (m->forwardVel <= 0.0f) {
+//         // Slow down if moving backwards
+//         m->forwardVel += 1.1f;
+//     } else if (m->forwardVel <= targetSpeed) {
+//         // If accelerating
+//         // m->forwardVel += 1.1f - m->forwardVel / 43.0f;
+//     } else if (m->floor->normal.y >= 0.95f) {
+//         m->forwardVel -= 1.0f;
+//     }
 
-#ifdef VELOCITY_BASED_TURN_SPEED
-    if ((m->heldObj == NULL) && !(m->action & ACT_FLAG_SHORT_HITBOX)) {
-        if (m->forwardVel >= 16.0f) {
-            s16 turnRange = abs_angle_diff(m->faceAngle[1], m->intendedYaw);
-            f32 fac = (m->forwardVel + m->intendedMag);
-            turnRange *= (1.0f - (CLAMP(fac, 0.0f, 32.0f) / 32.0f));
-            turnRange = MAX(turnRange, 0x800);
+//     if (m->forwardVel > 48.0f) {
+//         m->forwardVel = 48.0f;
+//     }
 
-            approach_angle_bool(&m->faceAngle[1], m->intendedYaw, turnRange);
-        } else {
-            m->faceAngle[1] = m->intendedYaw;
-        }
-    } else {
-        m->faceAngle[1] = m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
-    }
-#else
-    // Vanilla
+// #ifdef VELOCITY_BASED_TURN_SPEED
+//     if ((m->heldObj == NULL) && !(m->action & ACT_FLAG_SHORT_HITBOX)) {
+//         if (m->forwardVel >= 16.0f) {
+//             s16 turnRange = abs_angle_diff(m->faceAngle[1], m->intendedYaw);
+//             f32 fac = (m->forwardVel + m->intendedMag);
+//             turnRange *= (1.0f - (CLAMP(fac, 0.0f, 32.0f) / 32.0f));
+//             turnRange = MAX(turnRange, 0x800);
+
+//             approach_angle_bool(&m->faceAngle[1], m->intendedYaw, turnRange);
+//         } else {
+//             m->faceAngle[1] = m->intendedYaw;
+//         }
+//     } else {
+//         m->faceAngle[1] = m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
+//     }
+// #else
+//     // Vanilla
     m->faceAngle[1] =
         m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
-#endif
+// #endif
     apply_slope_accel(m);
 }
 
@@ -507,7 +509,8 @@ s32 begin_braking_action(struct MarioState *m) {
     }
 
     if (m->forwardVel >= 16.0f && m->floor->normal.y >= COS80) {
-        return set_mario_action(m, ACT_BRAKING, 0);
+        // Disable braking
+        return set_mario_action(m, ACT_IDLE, 0);
     }
 
     return set_mario_action(m, ACT_DECELERATING, 0);
