@@ -2771,13 +2771,14 @@ const BehaviorScript bhvInSunkenShip2[] = {
     END_LOOP(),
 };
 
+// Disable Mario's dust
 const BehaviorScript bhvMistParticleSpawner[] = {
     BEGIN(OBJ_LIST_DEFAULT),
-    PARENT_BIT_CLEAR(oActiveParticleFlags, ACTIVE_PARTICLE_DUST),
-    DISABLE_RENDERING(),
-    SPAWN_CHILD(/*Model*/ MODEL_MIST, /*Behavior*/ bhvWhitePuff1),
-    SPAWN_CHILD(/*Model*/ MODEL_SMOKE, /*Behavior*/ bhvWhitePuff2),
-    DELAY(1),
+    // PARENT_BIT_CLEAR(oActiveParticleFlags, ACTIVE_PARTICLE_DUST),
+    // DISABLE_RENDERING(),
+    // SPAWN_CHILD(/*Model*/ MODEL_MIST, /*Behavior*/ bhvWhitePuff1),
+    // SPAWN_CHILD(/*Model*/ MODEL_SMOKE, /*Behavior*/ bhvWhitePuff2),
+    // DELAY(1),
     DEACTIVATE(),
 };
 
