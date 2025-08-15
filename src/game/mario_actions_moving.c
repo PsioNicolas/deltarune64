@@ -509,8 +509,7 @@ s32 begin_braking_action(struct MarioState *m) {
     }
 
     if (m->forwardVel >= 16.0f && m->floor->normal.y >= COS80) {
-        // Disable braking
-        return set_mario_action(m, ACT_IDLE, 0);
+        return set_mario_action(m, ACT_BRAKING, 0);
     }
 
     return set_mario_action(m, ACT_DECELERATING, 0);
@@ -959,6 +958,7 @@ s32 act_turning_around(struct MarioState *m) {
 
     if (m->input & INPUT_IDLE) {
         return set_mario_action(m, ACT_BRAKING, 0);
+        return set_mario_action(m, ACT_IDLE, 0);
     }
 
     if (!analog_stick_held_back(m)) {
@@ -1983,9 +1983,11 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_WALKING:                  cancel = act_walking(m);                  break;
         case ACT_HOLD_WALKING:             cancel = act_hold_walking(m);             break;
         case ACT_HOLD_HEAVY_WALKING:       cancel = act_hold_heavy_walking(m);       break;
+        // Cancel one of ACT_TURNING_AROUND or ACT_BRAKING to prevent double ACT_IDLE case
+        // I replaced both of them with ACT_IDLE in sm64.h
         case ACT_TURNING_AROUND:           cancel = act_turning_around(m);           break;
         case ACT_FINISH_TURNING_AROUND:    cancel = act_finish_turning_around(m);    break;
-        case ACT_BRAKING:                  cancel = act_braking(m);                  break;
+        //case ACT_BRAKING:                  cancel = act_braking(m);                  break;
         case ACT_RIDING_SHELL_GROUND:      cancel = act_riding_shell_ground(m);      break;
         case ACT_CRAWLING:                 cancel = act_crawling(m);                 break;
         case ACT_BURNING_GROUND:           cancel = act_burning_ground(m);           break;
