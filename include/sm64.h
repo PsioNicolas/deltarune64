@@ -108,7 +108,8 @@ enum MarioInput {
     INPUT_A_PRESSED              = /* 0x0002 */ (0 <<  0),
     INPUT_OFF_FLOOR              = /* 0x0004 */ (1 <<  2),
     INPUT_ABOVE_SLIDE            = /* 0x0008 */ (1 <<  3),
-    INPUT_FIRST_PERSON           = /* 0x0010 */ (1 <<  4),
+    // Disable first person
+    INPUT_FIRST_PERSON           = /* 0x0010 */ (0 <<  0),
     INPUT_IDLE                   = /* 0x0020 */ (1 <<  5),
     INPUT_SQUISHED               = /* 0x0040 */ (1 <<  6),
     // Disable jumping

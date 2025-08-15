@@ -84,6 +84,7 @@ void align_with_floor(struct MarioState *m) {
 }
 
 s32 begin_walking_action(struct MarioState *m, f32 forwardVel, u32 action, u32 actionArg) {
+    // TODO: Snap intended yaw to a cardinal direction
     m->faceAngle[1] = m->intendedYaw;
     mario_set_forward_vel(m, forwardVel);
     return set_mario_action(m, action, actionArg);
